@@ -70,7 +70,7 @@ CREATE TABLE users (
 );
 
 -- Companies table
-CREATE TABLE companies (
+CREATE TABLE companies ( 
     id SERIAL PRIMARY KEY,
     uuid UUID DEFAULT uuid_generate_v4() UNIQUE,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,

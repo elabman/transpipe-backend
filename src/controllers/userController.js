@@ -145,7 +145,7 @@ class UserController {
     try {
       const { userId, fullname, phone, email, position, bankAccount, idPassport, salary } = req.body;
 
-      // Verify user exists
+      // Verify worker exists
       const userExists = await db.query('SELECT id FROM users WHERE id = $1', [userId]);
       if (userExists.rows.length === 0) {
         return res.status(404).json({
