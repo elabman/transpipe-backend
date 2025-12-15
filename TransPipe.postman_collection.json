@@ -1,0 +1,376 @@
+{
+	"info": {
+		"_postman_id": "510ee596-69c7-4c7a-a954-522f5e317e19",
+		"name": "TransPipe",
+		"description": "System for workers schedule management and payments disbursement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "43940617",
+		"_collection_link": "https://it-y34.postman.co/workspace/9912795b-2738-4334-8ea9-047cc3d631ef/collection/43940617-510ee596-69c7-4c7a-a954-522f5e317e19?action=share&source=collection_link&creator=43940617"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "UserRegistration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"email\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"password\": \"string\",\r\n  \"category\": \"Individual | Company | NGO | Government Institution\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UserLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreateWorker",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"fullname\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"email\": \"string\", // (optional)\r\n  \"position\": \"Engineer | Supervisor | Masonry\",\r\n  \"bankAccount\": \"string\", // (optional)\r\n  \"idPassport\": \"string\",\r\n  \"salary\": \"number\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreateWorkerWithCard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardId\": \"string\",\r\n  \"name\": \"string\",\r\n  \"email\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"positionId\": \"number\",\r\n  \"projectId\": \"number\",\r\n  \"nationalId\": \"string\",\r\n  \"address\": \"string (optional)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSeller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"email\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"password\": \"string\",\r\n  \"role\": \"seller\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company Management",
+			"item": [
+				{
+					"name": "RegisterCompany",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5070/company/register"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attendance Management",
+			"item": [
+				{
+					"name": "CreateAttendance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"workerId\": \"number\",\r\n  \"projectId\": \"number\",\r\n  \"date\": \"YYYY-MM-DD\",\r\n  \"checkIn\": \"HH:mm\",\r\n  \"checkOut\": \"HH:mm\",\r\n  \"status\": \"Present | Absent | Late | Half Day\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "MarkAttendance & Rate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Attendance & Rating (Supervisor)\r\n\r\n{\r\n  \"userId\": \"number\",\r\n  \"workerId\": \"number\",\r\n  \"projectId\": \"number\",\r\n  \"date\": \"YYYY-MM-DD\",\r\n  \"attendance\": \"Present | Absent | Late\",\r\n  \"rating\": \"number (1-5)\",\r\n  \"comments\": \"string (optional)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "PaymentRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"requestId\": \"string\",\r\n  \"projectId\": \"number\",\r\n  \"requestDate\": \"YYYY-MM-DD\",\r\n  \"workers\": [\r\n    {\r\n      \"workerId\": \"number\",\r\n      \"daysWorked\": \"number\",\r\n      \"allowancePerDay\": \"number\",\r\n      \"totalAmount\": \"number\"\r\n    }\r\n  ],\r\n  \"notes\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ApprovePaymentRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"requestId\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "RejectPaymentRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"requestId\": \"string\",\r\n  \"reason\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"paymentIds\": [\"number\"],\r\n  \"projectId\": \"number\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Management",
+			"item": [
+				{
+					"name": "CreateProject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"name\": \"string\",\r\n  \"client\": \"string\",\r\n  \"category\": \"Construction | Farming | Education\",\r\n  \"startDate\": \"YYYY-MM-DD\",\r\n  \"endDate\": \"YYYY-MM-DD\",\r\n  \"budget\": \"number\",\r\n  \"positions\":\r\n             [\r\n                \"Engineer\",\r\n                \"Supervisor\",\r\n                \"Masonry\"\r\n            ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"startDate\": \"YYYY-MM-DD\",\r\n  \"endDate\": \"YYYY-MM-DD\",\r\n  \"budget\": \"number\",\r\n  \"client\": \"string \",\r\n  \"category\": \"string \",\r\n  \"positions\": \r\n            [\r\n            \"Engineer\",\r\n            \"Supervisor\",\r\n            \"Masonry\"\r\n            ],\r\n  \"status\": \"Active | Completed | On Hold | Cancelled\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePositions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"name\": \"string\",\r\n  \"description\": \"string (optional)\",\r\n  \"defaultDailyRate\": \"number\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "AssignSuppervisor on Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"projectId\": \"number\",\r\n  \"supervisorId\": \"number\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "RequestMaterial",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"requestId\": \"string\",\r\n  \"projectId\": \"number\",\r\n  \"materialName\": \"string\",\r\n  \"quantity\": \"number\",\r\n  \"unit\": \"string\",\r\n  \"estimatedCost\": \"number\",\r\n  \"urgency\": \"Low | Medium | High\",\r\n  \"description\": \"string \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ApproveRequestMaterials",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"number\",\r\n  \"requestId\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
