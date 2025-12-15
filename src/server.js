@@ -148,9 +148,9 @@ process.on('unhandledRejection', (reason, promise) => {
   gracefulShutdown('UNHANDLED_REJECTION');
 });
 
+const PORT = process.env.PORT || 5070;
+
 // Start the server
 startServer();
-
-const PORT = process.env.PORT || 5070;
 
 module.exports = app;
