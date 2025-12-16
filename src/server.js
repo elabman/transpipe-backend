@@ -9,6 +9,7 @@ const path = require('path');
 const logger = require('./utils/logger');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 const userRoutes = require('./routes/userRoutes');
+const companyRoutes = require('./routes/companyRoutes');
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.get('/health', (req, res) => {
 // API routes
 const apiVersion = process.env.API_VERSION || 'v1';
 app.use(`/api/${apiVersion}/users`, userRoutes);
+app.use(`/api/${apiVersion}/companies`, companyRoutes);
 
 // 404 handler
 app.use('*', notFoundHandler);

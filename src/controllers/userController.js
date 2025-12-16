@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const userModel = new User();
 const Worker = require('../models/Worker');
 const Seller = require('../models/Seller');
 const AuthUtils = require('../utils/auth');
@@ -19,7 +20,7 @@ class UserController {
       const userData = req.body;
 
       // Create user using model
-      const user = await User.createUser(userData);
+      const user = await userModel.createUser(userData);
 
       // Generate authentication token
       const token = AuthUtils.generateToken({
@@ -65,7 +66,7 @@ class UserController {
       const { email, password } = req.body;
 
       // Authenticate user using model
-      const { user, token } = await User.authenticateUser(email, password);
+      const { user, token } = await userModel.authenticateUser(email, password);
 
       res.json({
         success: true,
@@ -229,7 +230,7 @@ class UserController {
     try {
       const userId = req.user.id;
       
-      const user = await User.findById(userId);
+      const user = await userModel.findById(userId);
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -259,7 +260,7 @@ class UserController {
       const userId = req.user.id;
       const updateData = req.body;
 
-      const updatedUser = await User.updateProfile(userId, updateData);
+      const updatedUser = await userModel.updateProfile(userId, updateData);
       if (!updatedUser) {
         return res.status(404).json({
           success: false,
@@ -290,7 +291,7 @@ class UserController {
       if (role) filters.role = role;
       if (is_active !== undefined) filters.is_active = is_active === 'true';
 
-      const result = await User.getUsers(filters, { page: parseInt(page), limit: parseInt(limit) });
+      const result = await userModel.getUsers(filters, { page: parseInt(page), limit: parseInt(limit) });
 
       res.json({
         success: true,

@@ -369,7 +369,66 @@ const schemas = {
     sortOrder: Joi.string()
       .valid('asc', 'desc')
       .default('desc')
-  })
+  }),
+
+  // Company registration validation schema
+  companyRegistration: Joi.object({
+    companyName: Joi.string()
+      .min(2)
+      .max(255)
+      .required()
+      .messages({
+        'string.min': 'Company name must be at least 2 characters long',
+        'string.max': 'Company name cannot exceed 255 characters'
+      }),
+    registrationNumber: Joi.string()
+      .min(3)
+      .max(100)
+      .optional()
+      .messages({
+        'string.min': 'Registration number must be at least 3 characters long'
+      }),
+    taxId: Joi.string()
+      .min(3)
+      .max(100)
+      .optional()
+      .messages({
+        'string.min': 'Tax ID must be at least 3 characters long'
+      }),
+    address: Joi.string()
+      .max(500)
+      .optional(),
+    industry: Joi.string()
+      .min(2)
+      .max(100)
+      .required()
+      .messages({
+        'string.min': 'Industry must be at least 2 characters long'
+      })
+  }),
+
+  // Company update validation schema
+  companyUpdate: Joi.object({
+    companyName: Joi.string()
+      .min(2)
+      .max(255)
+      .optional(),
+    registrationNumber: Joi.string()
+      .min(3)
+      .max(100)
+      .optional(),
+    taxId: Joi.string()
+      .min(3)
+      .max(100)
+      .optional(),
+    address: Joi.string()
+      .max(500)
+      .optional(),
+    industry: Joi.string()
+      .min(2)
+      .max(100)
+      .optional()
+  }).min(1) // At least one field must be provided for update
 };
 
 module.exports = {

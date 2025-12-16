@@ -55,6 +55,41 @@ class BaseModel {
   }
 
   /**
+   * Find a single record with conditions
+   * @param {Object} conditions - Where conditions
+   * @returns {Object|null} - Record or null if not found
+   */
+  async findOne(conditions = {}) {
+    try {
+      let query = `SELECT * FROM ${this.tableName}`;
+      const params = [];
+      let paramCount = 0;
+
+      // Build WHERE clause
+      if (Object.keys(conditions).length > 0) {
+        const whereClause = Object.keys(conditions).map(key => {
+          paramCount++;
+          params.push(conditions[key]);
+          return `${key} = $${paramCount}`;
+        }).join(' AND ');
+        
+        query += ` WHERE ${whereClause}`;
+      }
+
+      query += ' LIMIT 1';
+
+      const result = await this.db.query(query, params);
+      return result.rows[0] || null;
+    } catch (error) {
+      logger.error(`Error finding one ${this.tableName}`, { 
+        conditions, 
+        error: error.message 
+      });
+      throw error;
+    }
+  }
+
+  /**
    * Find records with conditions
    * @param {Object} conditions - Where conditions
    * @param {Object} options - Query options (limit, offset, orderBy)
