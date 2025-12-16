@@ -560,7 +560,84 @@ const schemas = {
       .min(1)
       .max(100)
       .required()
-  })
+  }),
+
+  // Attendance creation validation schema
+  createAttendance: Joi.object({
+    workerId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    date: Joi.date()
+      .iso()
+      .required(),
+    checkIn: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional()
+      .messages({
+        'string.pattern.base': 'Check-in time must be in HH:mm format'
+      }),
+    checkOut: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional()
+      .messages({
+        'string.pattern.base': 'Check-out time must be in HH:mm format'
+      }),
+    status: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .required()
+  }),
+
+  // Mark attendance with rating validation schema
+  markAttendanceWithRating: Joi.object({
+    workerId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    date: Joi.date()
+      .iso()
+      .required(),
+    attendance: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .required(),
+    rating: Joi.number()
+      .integer()
+      .min(1)
+      .max(5)
+      .optional(),
+    comments: Joi.string()
+      .max(1000)
+      .optional()
+  }),
+
+  // Attendance update validation schema
+  updateAttendance: Joi.object({
+    checkIn: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional(),
+    checkOut: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional(),
+    status: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .optional(),
+    rating: Joi.number()
+      .integer()
+      .min(1)
+      .max(5)
+      .optional(),
+    comments: Joi.string()
+      .max(1000)
+      .optional()
+  }).min(1)
 };
 
 module.exports = {

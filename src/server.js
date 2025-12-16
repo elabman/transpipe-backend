@@ -11,6 +11,7 @@ const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 const userRoutes = require('./routes/userRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
 
 const app = express();
 
@@ -72,6 +73,7 @@ const apiVersion = process.env.API_VERSION || 'v1';
 app.use(`/api/${apiVersion}/users`, userRoutes);
 app.use(`/api/${apiVersion}/companies`, companyRoutes);
 app.use(`/api/${apiVersion}/projects`, projectRoutes);
+app.use(`/api/${apiVersion}/attendance`, attendanceRoutes);
 
 // 404 handler
 app.use('*', notFoundHandler);
