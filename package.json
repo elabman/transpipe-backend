@@ -1,7 +1,7 @@
 {
   "name": "transpipe-backend",
   "version": "1.0.0",
-  "description": "workforce management and payment disbursement system",
+  "description": "System for workers schedule management and payments disbursement",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
