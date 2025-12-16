@@ -637,7 +637,76 @@ const schemas = {
     comments: Joi.string()
       .max(1000)
       .optional()
-  }).min(1)
+  }).min(1),
+
+  // Payment request creation validation schema
+  createPaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    requestDate: Joi.date()
+      .iso()
+      .required(),
+    workers: Joi.array()
+      .items(
+        Joi.object({
+          workerId: Joi.number()
+            .integer()
+            .positive()
+            .required(),
+          daysWorked: Joi.number()
+            .integer()
+            .positive()
+            .required(),
+          allowancePerDay: Joi.number()
+            .positive()
+            .precision(2)
+            .required(),
+          totalAmount: Joi.number()
+            .positive()
+            .precision(2)
+            .optional()
+        })
+      )
+      .min(1)
+      .required(),
+    notes: Joi.string()
+      .max(1000)
+      .optional()
+  }),
+
+  // Payment request approval validation schema
+  approvePaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required()
+  }),
+
+  // Payment request rejection validation schema
+  rejectPaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required(),
+    reason: Joi.string()
+      .min(1)
+      .max(500)
+      .required()
+  }),
+
+  // Process payments validation schema
+  processPayments: Joi.object({
+    paymentIds: Joi.array()
+      .items(Joi.number().integer().positive())
+      .min(1)
+      .required()
+  })
 };
 
 module.exports = {
