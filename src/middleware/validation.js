@@ -428,7 +428,285 @@ const schemas = {
       .min(2)
       .max(100)
       .optional()
-  }).min(1) // At least one field must be provided for update
+  }).min(1), // At least one field must be provided for update
+
+  // Project creation validation schema
+  createProject: Joi.object({
+    name: Joi.string()
+      .min(2)
+      .max(255)
+      .required(),
+    description: Joi.string()
+      .max(1000)
+      .optional(),
+    client: Joi.string()
+      .min(2)
+      .max(255)
+      .required(),
+    category: Joi.string()
+      .valid('Construction', 'Farming', 'Education')
+      .required(),
+    startDate: Joi.date()
+      .iso()
+      .required(),
+    endDate: Joi.date()
+      .iso()
+      .greater(Joi.ref('startDate'))
+      .required(),
+    budget: Joi.number()
+      .positive()
+      .precision(2)
+      .required(),
+    positions: Joi.array()
+      .items(Joi.string().valid('Engineer', 'Supervisor', 'Masonry'))
+      .optional()
+  }),
+
+  // Project update validation schema
+  updateProject: Joi.object({
+    name: Joi.string()
+      .min(2)
+      .max(255)
+      .optional(),
+    description: Joi.string()
+      .max(1000)
+      .optional(),
+    client: Joi.string()
+      .min(2)
+      .max(255)
+      .optional(),
+    category: Joi.string()
+      .valid('Construction', 'Farming', 'Education')
+      .optional(),
+    startDate: Joi.date()
+      .iso()
+      .optional(),
+    endDate: Joi.date()
+      .iso()
+      .optional(),
+    budget: Joi.number()
+      .positive()
+      .precision(2)
+      .optional(),
+    status: Joi.string()
+      .valid('Active', 'Completed', 'On Hold', 'Cancelled')
+      .optional()
+  }).min(1),
+
+  // Position creation validation schema
+  createPosition: Joi.object({
+    name: Joi.string()
+      .min(2)
+      .max(100)
+      .required(),
+    description: Joi.string()
+      .max(500)
+      .optional(),
+    defaultDailyRate: Joi.number()
+      .positive()
+      .precision(2)
+      .required()
+  }),
+
+  // Supervisor assignment validation schema
+  assignSupervisor: Joi.object({
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    supervisorId: Joi.number()
+      .integer()
+      .positive()
+      .required()
+  }),
+
+  // Material request creation validation schema
+  createMaterialRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    materialName: Joi.string()
+      .min(2)
+      .max(255)
+      .required(),
+    quantity: Joi.number()
+      .positive()
+      .precision(2)
+      .required(),
+    unit: Joi.string()
+      .min(1)
+      .max(50)
+      .required(),
+    estimatedCost: Joi.number()
+      .positive()
+      .precision(2)
+      .required(),
+    urgency: Joi.string()
+      .valid('Low', 'Medium', 'High')
+      .required(),
+    description: Joi.string()
+      .max(1000)
+      .optional()
+  }),
+
+  // Material request approval validation schema
+  approveMaterialRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required()
+  }),
+
+  // Attendance creation validation schema
+  createAttendance: Joi.object({
+    workerId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    date: Joi.date()
+      .iso()
+      .required(),
+    checkIn: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional()
+      .messages({
+        'string.pattern.base': 'Check-in time must be in HH:mm format'
+      }),
+    checkOut: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional()
+      .messages({
+        'string.pattern.base': 'Check-out time must be in HH:mm format'
+      }),
+    status: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .required()
+  }),
+
+  // Mark attendance with rating validation schema
+  markAttendanceWithRating: Joi.object({
+    workerId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    date: Joi.date()
+      .iso()
+      .required(),
+    attendance: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .required(),
+    rating: Joi.number()
+      .integer()
+      .min(1)
+      .max(5)
+      .optional(),
+    comments: Joi.string()
+      .max(1000)
+      .optional()
+  }),
+
+  // Attendance update validation schema
+  updateAttendance: Joi.object({
+    checkIn: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional(),
+    checkOut: Joi.string()
+      .pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .optional(),
+    status: Joi.string()
+      .valid('Present', 'Absent', 'Late', 'Half Day')
+      .optional(),
+    rating: Joi.number()
+      .integer()
+      .min(1)
+      .max(5)
+      .optional(),
+    comments: Joi.string()
+      .max(1000)
+      .optional()
+  }).min(1),
+
+  // Payment request creation validation schema
+  createPaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required(),
+    projectId: Joi.number()
+      .integer()
+      .positive()
+      .required(),
+    requestDate: Joi.date()
+      .iso()
+      .required(),
+    workers: Joi.array()
+      .items(
+        Joi.object({
+          workerId: Joi.number()
+            .integer()
+            .positive()
+            .required(),
+          daysWorked: Joi.number()
+            .integer()
+            .positive()
+            .required(),
+          allowancePerDay: Joi.number()
+            .positive()
+            .precision(2)
+            .required(),
+          totalAmount: Joi.number()
+            .positive()
+            .precision(2)
+            .optional()
+        })
+      )
+      .min(1)
+      .required(),
+    notes: Joi.string()
+      .max(1000)
+      .optional()
+  }),
+
+  // Payment request approval validation schema
+  approvePaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required()
+  }),
+
+  // Payment request rejection validation schema
+  rejectPaymentRequest: Joi.object({
+    requestId: Joi.string()
+      .min(1)
+      .max(100)
+      .required(),
+    reason: Joi.string()
+      .min(1)
+      .max(500)
+      .required()
+  }),
+
+  // Process payments validation schema
+  processPayments: Joi.object({
+    paymentIds: Joi.array()
+      .items(Joi.number().integer().positive())
+      .min(1)
+      .required()
+  })
 };
 
 module.exports = {
